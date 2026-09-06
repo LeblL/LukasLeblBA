@@ -22,7 +22,7 @@ BASE_COLUMNS = [
     "arrival_planned_time",
     "departure_planned_time",
 ]
-TRAIN_NAME_COLUMNS = ["train_name", "train_number"]
+TRAIN_NAME_COLUMNS = ["train_number", "train_name"]
 STATION_NAME = "K\u00f6ln Messe/Deutz"
 EVAS = ["08003368", "08073368"]
 SAMPLE_COLUMNS = [

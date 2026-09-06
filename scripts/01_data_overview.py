@@ -4,6 +4,14 @@ import pandas as pd
 
 
 DATASETS_DIR = Path(__file__).resolve().parents[1] / "datasets"
+MONTH_FILES = [
+    "data-2025-12.parquet",
+    "data-2026-01.parquet",
+    "data-2026-02.parquet",
+    "data-2026-03.parquet",
+    "data-2026-04.parquet",
+    "data-2026-05.parquet",
+]
 COLUMNS = [
     "station_name",
     "eva",
@@ -13,11 +21,12 @@ COLUMNS = [
 
 
 def main() -> None:
-    files = sorted(DATASETS_DIR.glob("*.parquet"))
+    files = [DATASETS_DIR / filename for filename in MONTH_FILES]
 
-    if not files:
-        print(f"Keine Parquet-Dateien gefunden in: {DATASETS_DIR}")
-        return
+    missing_files = [file for file in files if not file.exists()]
+    if missing_files:
+        missing_names = ", ".join(file.name for file in missing_files)
+        raise FileNotFoundError(f"Fehlende Parquet-Dateien: {missing_names}")
 
     for file in files:
         print("\n" + "=" * 70)

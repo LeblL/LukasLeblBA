@@ -8,11 +8,11 @@ COLUMNS = ["station_name", "eva"]
 
 # Eindeutige Suchbegriffe fuer die acht Stationen im Untersuchungsraum.
 STATION_SEARCHES = {
-    "Koeln Hbf": "Köln Hbf",
-    "Koeln Messe/Deutz": "Köln Messe/Deutz",
-    "Koeln Sued": "Köln Süd",
-    "Koeln/Bonn Flughafen": "Köln/Bonn Flughafen",
-    "Bruehl": "Brühl",
+    "Koeln Hbf": "K\u00f6ln Hbf",
+    "Koeln Messe/Deutz": "K\u00f6ln Messe/Deutz",
+    "Koeln Sued": "K\u00f6ln S\u00fcd",
+    "Koeln/Bonn Flughafen": "K\u00f6ln/Bonn Flughafen",
+    "Bruehl": "Br\u00fchl",
     "Bonn Hbf": "Bonn Hbf",
     "Bonn-Beuel": "Bonn-Beuel",
     "Troisdorf": "Troisdorf",
