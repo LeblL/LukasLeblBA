@@ -3,15 +3,25 @@ from pathlib import Path
 import pandas as pd
 
 
-DATASETS_DIR = Path(__file__).resolve().parents[1] / "datasets"
+def find_project_dir() -> Path:
+    for parent in Path(__file__).resolve().parents:
+        if (parent / "datasets").is_dir():
+            return parent
+
+    raise FileNotFoundError("Projektordner mit datasets-Verzeichnis nicht gefunden.")
+
+
+PROJECT_DIR = find_project_dir()
+DATASETS_DIR = PROJECT_DIR / "datasets"
+OLD_SCHEMA_DATASETS_DIR = DATASETS_DIR / "old schema datasets"
 COLUMNS = ["station_name", "eva"]
 MONTH_FILES = [
-    "data-2025-12.parquet",
-    "data-2026-01.parquet",
-    "data-2026-02.parquet",
-    "data-2026-03.parquet",
-    "data-2026-04.parquet",
-    "data-2026-05.parquet",
+    OLD_SCHEMA_DATASETS_DIR / "old-schema-data-2025-12.parquet",
+    OLD_SCHEMA_DATASETS_DIR / "old-schema-data-2026-01.parquet",
+    OLD_SCHEMA_DATASETS_DIR / "old-schema-data-2026-02.parquet",
+    OLD_SCHEMA_DATASETS_DIR / "old-schema-data-2026-03.parquet",
+    OLD_SCHEMA_DATASETS_DIR / "old-schema-data-2026-04.parquet",
+    DATASETS_DIR / "data-2026-05.parquet",
 ]
 
 # Exakte Stationsnamen des Untersuchungsraums.
@@ -27,17 +37,16 @@ STATIONS = [
 ]
 
 
-def month_from_filename(filename: str) -> str:
-    return filename.removeprefix("data-").removesuffix(".parquet")
+def month_from_path(path: Path) -> str:
+    return path.stem.removeprefix("old-schema-data-").removeprefix("data-")
 
 
 def main() -> None:
     monthly_results = []
     missing_station_warnings = []
 
-    for filename in MONTH_FILES:
-        month = month_from_filename(filename)
-        path = DATASETS_DIR / filename
+    for path in MONTH_FILES:
+        month = month_from_path(path)
 
         df = pd.read_parquet(path, columns=COLUMNS)
         filtered = df[df["station_name"].isin(STATIONS)]

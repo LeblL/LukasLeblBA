@@ -3,7 +3,18 @@ from pathlib import Path
 import pandas as pd
 
 
-DATASET_PATH = Path(__file__).resolve().parents[1] / "datasets" / "data-2026-01.parquet"
+def find_project_dir() -> Path:
+    for parent in Path(__file__).resolve().parents:
+        if (parent / "datasets").is_dir():
+            return parent
+
+    raise FileNotFoundError("Projektordner mit datasets-Verzeichnis nicht gefunden.")
+
+
+PROJECT_DIR = find_project_dir()
+DATASETS_DIR = PROJECT_DIR / "datasets"
+OLD_SCHEMA_DATASETS_DIR = DATASETS_DIR / "old schema datasets"
+DATASET_PATH = OLD_SCHEMA_DATASETS_DIR / "old-schema-data-2026-01.parquet"
 COLUMNS = ["station_name", "eva"]
 
 # Eindeutige Suchbegriffe fuer die acht Stationen im Untersuchungsraum.
