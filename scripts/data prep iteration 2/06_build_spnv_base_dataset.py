@@ -46,6 +46,19 @@ STATION_EVAS = {
     for eva_numbers in STATION_EVA_MAP.values()
     for eva in eva_numbers
 }
+CANONICAL_EVA_BY_RAW_EVA = {
+    eva: eva_numbers[0]
+    for eva_numbers in STATION_EVA_MAP.values()
+    for eva in eva_numbers
+}
+
+
+def canonicalize_stations(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
+    eva = df["eva"].astype("string").str.zfill(8)
+    df["eva"] = eva.map(CANONICAL_EVA_BY_RAW_EVA)
+
+    return df
 
 
 def load_filtered_month(path: Path) -> pd.DataFrame:
@@ -53,7 +66,7 @@ def load_filtered_month(path: Path) -> pd.DataFrame:
     eva = df["eva"].astype("string").str.zfill(8)
     mask = eva.isin(STATION_EVAS) & df["train_type"].isin(SPNV_TYPES)
 
-    return df[mask].copy()
+    return canonicalize_stations(df[mask])
 
 
 def main() -> None:
