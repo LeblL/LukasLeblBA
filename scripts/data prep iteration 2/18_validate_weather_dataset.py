@@ -6,9 +6,6 @@ import pandas as pd
 PROCESSED_DIR = Path(__file__).resolve().parents[2] / "datasets" / "processed"
 WEATHER_PATH = PROCESSED_DIR / "spnv_weather_koeln_bonn_2026-01_2026-06.parquet"
 
-EXPECTED_ROWS = 523938
-EXPECTED_COLUMNS = 36
-
 WEATHER_COLUMNS = [
     "ff_wind_speed_ms",
     "ff_wind_direction_deg",
@@ -73,34 +70,6 @@ def missing_by_group(df: pd.DataFrame, group_column: str) -> pd.DataFrame:
 
 def main() -> None:
     df = pd.read_parquet(WEATHER_PATH)
-
-    print_section("Datensatz")
-    print(f"Dateipfad: {WEATHER_PATH}")
-    print(f"Zeilen: {len(df)} von erwartet {EXPECTED_ROWS}")
-    print(f"Spalten: {len(df.columns)} von erwartet {EXPECTED_COLUMNS}")
-
-    print_section("IDs")
-    print(f"Beobachtungen: {len(df)}")
-    print(f"Eindeutige IDs: {df['id'].nunique(dropna=True)}")
-    print(f"Doppelte IDs: {int(df['id'].duplicated().sum())}")
-    print(f"Fehlende IDs: {int(df['id'].isna().sum())}")
-
-    print_section("Stationen")
-    print("Vorhandene EVA-Werte:")
-    print(", ".join(sorted(df["eva"].astype(str).unique())))
-    print()
-    station_counts = (
-        df.groupby(["eva", "station_name"], dropna=False)
-        .size()
-        .reset_index(name="observations")
-        .sort_values(["eva", "station_name"])
-    )
-    print(station_counts.to_string(index=False))
-    print()
-    print(
-        "Beobachtungen mit EVA 08073368: "
-        f"{int((df['eva'].astype(str) == '08073368').sum())}"
-    )
 
     print_section("Fehlende Wetterwerte")
     missing = df[WEATHER_COLUMNS].isna().sum().reset_index(name="missing")
