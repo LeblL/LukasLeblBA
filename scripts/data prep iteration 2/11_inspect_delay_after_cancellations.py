@@ -7,7 +7,7 @@ DATASET_PATH = (
     Path(__file__).resolve().parents[2]
     / "datasets"
     / "processed"
-    / "spnv_base_koeln_bonn_2026-01_2026-06.parquet"
+    / "spnv_base_koeln_bonn_2025-11_2026-08.parquet"
 )
 COLUMNS = [
     "delay_in_min",

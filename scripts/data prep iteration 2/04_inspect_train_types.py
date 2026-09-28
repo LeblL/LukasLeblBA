@@ -4,12 +4,16 @@ import pandas as pd
 
 
 MONTH_FILES = [
+    "data-2025-11.parquet",
+    "data-2025-12.parquet",
     "data-2026-01.parquet",
     "data-2026-02.parquet",
     "data-2026-03.parquet",
     "data-2026-04.parquet",
     "data-2026-05.parquet",
     "data-2026-06.parquet",
+    "data-2026-07.parquet",
+    "data-2026-08.parquet",
 ]
 
 STATION_EVA_MAP = {

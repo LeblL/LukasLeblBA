@@ -9,7 +9,7 @@ INPUT_PATH = (
     PROJECT_DIR
     / "datasets"
     / "processed"
-    / "modeling_dataset_final_koeln_bonn_2026-01_2026-06.parquet"
+    / "modeling_dataset_final_koeln_bonn_2025-11_2026-08.parquet"
 )
 
 OUTPUT_DIR = PROJECT_DIR / "datasets" / "modeling" / "splits"
@@ -22,9 +22,9 @@ EXCLUDED_PATH = OUTPUT_DIR / "excluded_boundary_rides.parquet"
 df = pd.read_parquet(INPUT_PATH)
 df["planned_event_time"] = pd.to_datetime(df["planned_event_time"])
 
-validation_start = pd.Timestamp("2026-05-01 00:00:00")
-test_start = pd.Timestamp("2026-06-01 00:00:00")
-test_end = pd.Timestamp("2026-07-01 00:00:00")
+validation_start = pd.Timestamp("2026-07-01 00:00:00")
+test_start = pd.Timestamp("2026-08-01 00:00:00")
+test_end = pd.Timestamp("2026-09-01 00:00:00")
 
 train = df.loc[df["planned_event_time"] < validation_start].copy()
 validation = df.loc[

@@ -9,16 +9,16 @@ METADATA_DIR = PROJECT_DIR / "datasets" / "metadata"
 WEATHER_DIR = PROJECT_DIR / "datasets" / "weather"
 
 CALENDAR_DATASET_PATH = (
-    PROCESSED_DIR / "spnv_calendar_koeln_bonn_2026-01_2026-06.parquet"
+    PROCESSED_DIR / "spnv_calendar_koeln_bonn_2025-11_2026-08.parquet"
 )
 WEATHER_DATASET_PATH = (
-    PROCESSED_DIR / "spnv_weather_koeln_bonn_2026-01_2026-06.parquet"
+    PROCESSED_DIR / "spnv_weather_koeln_bonn_2025-11_2026-08.parquet"
 )
 MAPPING_PATH = (
     METADATA_DIR / "db_station_weather_station_mapping_koeln_bonn_adjusted.csv"
 )
 
-EXPECTED_OBSERVATIONS = 523938
+EXPECTED_OBSERVATIONS = 849421
 EXPECTED_COLUMNS = 36
 
 WEATHER_SOURCES = {
@@ -276,7 +276,7 @@ def main() -> None:
     for column in WEATHER_FEATURE_COLUMNS:
         print(f"{column}: {int(output[column].isna().sum())}")
 
-    if len(output) != EXPECTED_OBSERVATIONS:
+    if EXPECTED_OBSERVATIONS is not None and len(output) != EXPECTED_OBSERVATIONS:
         print(
             "WARNING: Expected "
             f"{EXPECTED_OBSERVATIONS} observations, found {len(output)}."

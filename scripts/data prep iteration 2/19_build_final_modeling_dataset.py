@@ -5,9 +5,9 @@ import pandas as pd
 
 PROCESSED_DIR = Path(__file__).resolve().parents[2] / "datasets" / "processed"
 
-INPUT_PATH = PROCESSED_DIR / "spnv_weather_koeln_bonn_2026-01_2026-06.parquet"
+INPUT_PATH = PROCESSED_DIR / "spnv_weather_koeln_bonn_2025-11_2026-08.parquet"
 OUTPUT_PATH = (
-    PROCESSED_DIR / "modeling_dataset_final_koeln_bonn_2026-01_2026-06.parquet"
+    PROCESSED_DIR / "modeling_dataset_final_koeln_bonn_2025-11_2026-08.parquet"
 )
 
 MODEL_COLUMNS = [

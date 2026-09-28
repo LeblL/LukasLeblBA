@@ -8,17 +8,20 @@ TEMPORAL_DATASET_PATH = (
     Path(__file__).resolve().parents[2]
     / "datasets"
     / "processed"
-    / "spnv_temporal_koeln_bonn_2026-01_2026-06.parquet"
+    / "spnv_temporal_koeln_bonn_2025-11_2026-08.parquet"
 )
 CALENDAR_DATASET_PATH = (
     Path(__file__).resolve().parents[2]
     / "datasets"
     / "processed"
-    / "spnv_calendar_koeln_bonn_2026-01_2026-06.parquet"
+    / "spnv_calendar_koeln_bonn_2025-11_2026-08.parquet"
 )
-EXPECTED_OBSERVATIONS = 523938
+EXPECTED_OBSERVATIONS = 849421
 EXPECTED_COLUMNS = 28
 PUBLIC_HOLIDAYS_NRW = {
+    date(2025, 11, 1): "Allerheiligen",
+    date(2025, 12, 25): "1. Weihnachtstag",
+    date(2025, 12, 26): "2. Weihnachtstag",
     date(2026, 1, 1): "Neujahr",
     date(2026, 4, 3): "Karfreitag",
     date(2026, 4, 6): "Ostermontag",
@@ -67,7 +70,7 @@ def main() -> None:
     print()
     print(f"Datei: {CALENDAR_DATASET_PATH}")
 
-    if len(spnv) != EXPECTED_OBSERVATIONS:
+    if EXPECTED_OBSERVATIONS is not None and len(spnv) != EXPECTED_OBSERVATIONS:
         print(
             "WARNUNG: Erwartet "
             f"{EXPECTED_OBSERVATIONS} Beobachtungen, gefunden {len(spnv)}."

@@ -4,12 +4,37 @@ import pandas as pd
 
 
 MONTH_FILES = [
+    "data-2025-11.parquet",
+    "data-2025-12.parquet",
     "data-2026-01.parquet",
     "data-2026-02.parquet",
     "data-2026-03.parquet",
     "data-2026-04.parquet",
     "data-2026-05.parquet",
     "data-2026-06.parquet",
+    "data-2026-07.parquet",
+    "data-2026-08.parquet",
+]
+
+SOURCE_COLUMNS = [
+    "station_name",
+    "xml_station_name",
+    "eva",
+    "train_number",
+    "line_number",
+    "final_destination_station",
+    "delay_in_min",
+    "time",
+    "arrival_is_canceled",
+    "departure_is_canceled",
+    "train_type",
+    "train_line_ride_id",
+    "train_line_station_num",
+    "arrival_planned_time",
+    "arrival_change_time",
+    "departure_planned_time",
+    "departure_change_time",
+    "id",
 ]
 
 STATION_EVA_MAP = {
@@ -24,8 +49,8 @@ STATION_EVA_MAP = {
 }
 
 SPNV_TYPES = {"S", "RB", "RE", "NX", "TR", "TRI"}
-EXPECTED_OBSERVATIONS = 549360
-OUTPUT_FILE = "spnv_base_koeln_bonn_2026-01_2026-06.parquet"
+EXPECTED_OBSERVATIONS = 896578
+OUTPUT_FILE = "spnv_base_koeln_bonn_2025-11_2026-08.parquet"
 
 
 def find_project_dir() -> Path:
@@ -62,7 +87,7 @@ def canonicalize_stations(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def load_filtered_month(path: Path) -> pd.DataFrame:
-    df = pd.read_parquet(path)
+    df = pd.read_parquet(path, columns=SOURCE_COLUMNS)
     eva = df["eva"].astype("string").str.zfill(8)
     mask = eva.isin(STATION_EVAS) & df["train_type"].isin(SPNV_TYPES)
 
@@ -86,7 +111,7 @@ def main() -> None:
     print(f"Spalten: {len(spnv.columns)}")
     print(f"Datei: {OUTPUT_PATH}")
 
-    if len(spnv) != EXPECTED_OBSERVATIONS:
+    if EXPECTED_OBSERVATIONS is not None and len(spnv) != EXPECTED_OBSERVATIONS:
         print(
             "WARNUNG: Erwartet "
             f"{EXPECTED_OBSERVATIONS} Beobachtungen, gefunden {len(spnv)}."

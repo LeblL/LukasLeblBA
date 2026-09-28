@@ -3,7 +3,7 @@ from pathlib import Path
 import pandas as pd
 
 
-DATASET_FILE = "spnv_base_koeln_bonn_2026-01_2026-06.parquet"
+DATASET_FILE = "spnv_base_koeln_bonn_2025-11_2026-08.parquet"
 
 STATION_EVA_MAP = {
     "Köln Hbf": ("08000207",),

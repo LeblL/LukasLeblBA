@@ -7,15 +7,15 @@ BASE_DATASET_PATH = (
     Path(__file__).resolve().parents[2]
     / "datasets"
     / "processed"
-    / "spnv_base_koeln_bonn_2026-01_2026-06.parquet"
+    / "spnv_base_koeln_bonn_2025-11_2026-08.parquet"
 )
 CLEAN_DATASET_PATH = (
     Path(__file__).resolve().parents[2]
     / "datasets"
     / "processed"
-    / "spnv_clean_koeln_bonn_2026-01_2026-06.parquet"
+    / "spnv_clean_koeln_bonn_2025-11_2026-08.parquet"
 )
-EXPECTED_CLEAN_OBSERVATIONS = 523940
+EXPECTED_CLEAN_OBSERVATIONS = 849426
 
 
 def main() -> None:
@@ -53,7 +53,10 @@ def main() -> None:
     print(f"Spalten: {len(clean.columns)}")
     print(f"Datei: {CLEAN_DATASET_PATH}")
 
-    if len(clean) != EXPECTED_CLEAN_OBSERVATIONS:
+    if (
+        EXPECTED_CLEAN_OBSERVATIONS is not None
+        and len(clean) != EXPECTED_CLEAN_OBSERVATIONS
+    ):
         print(
             "WARNUNG: Erwartet "
             f"{EXPECTED_CLEAN_OBSERVATIONS} Beobachtungen, gefunden {len(clean)}."

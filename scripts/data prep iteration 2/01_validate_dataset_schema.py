@@ -6,12 +6,16 @@ import pyarrow.parquet as pq
 
 
 MONTH_FILES = [
+    "data-2025-11.parquet",
+    "data-2025-12.parquet",
     "data-2026-01.parquet",
     "data-2026-02.parquet",
     "data-2026-03.parquet",
     "data-2026-04.parquet",
     "data-2026-05.parquet",
     "data-2026-06.parquet",
+    "data-2026-07.parquet",
+    "data-2026-08.parquet",
 ]
 
 IMPORTANT_COLUMNS = [
@@ -19,13 +23,11 @@ IMPORTANT_COLUMNS = [
     "xml_station_name",
     "eva",
     "train_type",
-    "train_name",
     "train_number",
     "line_number",
     "final_destination_station",
     "delay_in_min",
     "time",
-    "is_canceled",
     "arrival_is_canceled",
     "departure_is_canceled",
     "train_line_ride_id",

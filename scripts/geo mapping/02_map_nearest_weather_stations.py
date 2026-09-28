@@ -10,8 +10,8 @@ METADATA_DIR = PROJECT_DIR / "datasets" / "metadata"
 DB_STATIONS_PATH = METADATA_DIR / "db_station_coordinates_koeln_bonn.csv"
 OUTPUT_PATH = METADATA_DIR / "db_station_weather_station_mapping_koeln_bonn.csv"
 
-STUDY_START = pd.Timestamp("2026-01-01")
-STUDY_END = pd.Timestamp("2026-06-30")
+STUDY_START = pd.Timestamp("2025-11-01")
+STUDY_END = pd.Timestamp("2026-08-31")
 
 DWD_COLUMNS = [
     "station_id",

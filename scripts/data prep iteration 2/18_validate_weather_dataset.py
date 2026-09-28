@@ -4,7 +4,7 @@ import pandas as pd
 
 
 PROCESSED_DIR = Path(__file__).resolve().parents[2] / "datasets" / "processed"
-WEATHER_PATH = PROCESSED_DIR / "spnv_weather_koeln_bonn_2026-01_2026-06.parquet"
+WEATHER_PATH = PROCESSED_DIR / "spnv_weather_koeln_bonn_2025-11_2026-08.parquet"
 
 WEATHER_COLUMNS = [
     "ff_wind_speed_ms",
@@ -129,12 +129,12 @@ def main() -> None:
     print(f"Maximum planned_event_time: {planned_event_time.max()}")
     print(f"Fehlende planned_event_time: {int(planned_event_time.isna().sum())}")
     print(
-        "Beobachtungen vor 01.01.2026: "
-        f"{int((planned_event_time < pd.Timestamp('2026-01-01')).sum())}"
+        "Beobachtungen vor 01.11.2025: "
+        f"{int((planned_event_time < pd.Timestamp('2025-11-01')).sum())}"
     )
     print(
-        "Beobachtungen nach 30.06.2026: "
-        f"{int((planned_event_time > pd.Timestamp('2026-06-30 23:59:59')).sum())}"
+        "Beobachtungen nach 31.08.2026: "
+        f"{int((planned_event_time > pd.Timestamp('2026-08-31 23:59:59')).sum())}"
     )
 
     print()

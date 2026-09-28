@@ -7,15 +7,15 @@ CLEAN_DATASET_PATH = (
     Path(__file__).resolve().parents[2]
     / "datasets"
     / "processed"
-    / "spnv_clean_koeln_bonn_2026-01_2026-06.parquet"
+    / "spnv_clean_koeln_bonn_2025-11_2026-08.parquet"
 )
 TEMPORAL_DATASET_PATH = (
     Path(__file__).resolve().parents[2]
     / "datasets"
     / "processed"
-    / "spnv_temporal_koeln_bonn_2026-01_2026-06.parquet"
+    / "spnv_temporal_koeln_bonn_2025-11_2026-08.parquet"
 )
-EXPECTED_OBSERVATIONS = 523938
+EXPECTED_OBSERVATIONS = 849421
 
 
 def main() -> None:
@@ -37,8 +37,8 @@ def main() -> None:
     spnv["is_weekend"] = spnv["event_weekday"].isin([5, 6])
 
     observations_before_period_filter = len(spnv)
-    start = pd.Timestamp("2026-01-01 00:00:00")
-    end = pd.Timestamp("2026-06-30 23:59:59")
+    start = pd.Timestamp("2025-11-01 00:00:00")
+    end = pd.Timestamp("2026-08-31 23:59:59")
     inside_study_period = planned_event_time.between(start, end, inclusive="both")
     removed_outside_study_period = int((~inside_study_period).sum())
 
@@ -73,7 +73,7 @@ def main() -> None:
     print(f"Spalten: {len(spnv.columns)}")
     print(f"Datei: {TEMPORAL_DATASET_PATH}")
 
-    if len(spnv) != EXPECTED_OBSERVATIONS:
+    if EXPECTED_OBSERVATIONS is not None and len(spnv) != EXPECTED_OBSERVATIONS:
         print(
             "WARNUNG: Erwartet "
             f"{EXPECTED_OBSERVATIONS} Beobachtungen, gefunden {len(spnv)}."
