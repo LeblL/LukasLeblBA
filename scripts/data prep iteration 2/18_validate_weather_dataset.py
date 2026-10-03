@@ -51,6 +51,49 @@ def print_section(title: str) -> None:
     print("-" * len(title))
 
 
+def validate_dwd_timezone_conversion() -> pd.DataFrame:
+    cases = pd.DataFrame(
+        {
+            "mess_datum_utc": [
+                "2026-01-15 12:00",
+                "2026-07-15 12:00",
+                "2026-03-29 00:00",
+                "2026-03-29 01:00",
+            ],
+            "expected_weather_hour": [
+                pd.Timestamp("2026-01-15 13:00"),
+                pd.Timestamp("2026-07-15 14:00"),
+                pd.Timestamp("2026-03-29 01:00"),
+                pd.Timestamp("2026-03-29 03:00"),
+            ],
+        }
+    )
+    converted = (
+        pd.to_datetime(cases["mess_datum_utc"], errors="coerce", utc=True)
+        .dt.tz_convert("Europe/Berlin")
+        .dt.tz_localize(None)
+    )
+
+    if converted.isna().any():
+        raise ValueError("DWD timezone validation contains invalid timestamps.")
+
+    cases["weather_hour_europe_berlin"] = converted
+    if not cases["weather_hour_europe_berlin"].equals(
+        cases["expected_weather_hour"]
+    ):
+        raise ValueError(
+            "DWD UTC to Europe/Berlin timezone conversion failed validation."
+        )
+
+    dst_gap = pd.Timestamp("2026-03-29 02:00")
+    if cases["weather_hour_europe_berlin"].eq(dst_gap).any():
+        raise ValueError(
+            "DWD timezone conversion produced nonexistent local DST gap hour."
+        )
+
+    return cases
+
+
 def missing_by_group(df: pd.DataFrame, group_column: str) -> pd.DataFrame:
     observations = df.groupby(group_column, dropna=False).size()
     missing = df.groupby(group_column, dropna=False)[MISSING_COLUMNS].apply(
@@ -135,6 +178,18 @@ def main() -> None:
     print(
         "Beobachtungen nach 31.08.2026: "
         f"{int((planned_event_time > pd.Timestamp('2026-08-31 23:59:59')).sum())}"
+    )
+
+    print_section("DWD-Zeitzonenplausibilitaet")
+    timezone_cases = validate_dwd_timezone_conversion()
+    print(
+        "DWD MESS_DATUM wird als UTC gelesen, nach Europe/Berlin konvertiert "
+        "und danach timezone-naive fuer den Join gespeichert."
+    )
+    print(timezone_cases.to_string(index=False))
+    print(
+        "Kein konvertierter DWD-Testzeitpunkt liegt in der nicht existierenden "
+        "lokalen Stunde 2026-03-29 02:00."
     )
 
     print()

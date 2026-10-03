@@ -20,6 +20,8 @@ MAPPING_PATH = (
 
 EXPECTED_OBSERVATIONS = 849421
 EXPECTED_COLUMNS = 36
+WEATHER_HOUR_START = pd.Timestamp("2025-11-01 00:00:00")
+WEATHER_HOUR_END_EXCLUSIVE = pd.Timestamp("2026-09-01 00:00:00")
 
 WEATHER_SOURCES = {
     "ff": {
@@ -151,10 +153,18 @@ def read_weather_source(prefix: str, config: dict[str, object]) -> pd.DataFrame:
         weather[f"{prefix}_weather_station_id"] = (
             weather["STATIONS_ID"].astype(str).str.strip().str.zfill(5)
         )
-        weather["weather_hour"] = pd.to_datetime(
+        # DWD MESS_DATUM is provided in UTC.
+        # Convert to German local time (Europe/Berlin) before joining with
+        # DB planned_event_time, which is stored as timezone-naive local time.
+        # Europe/Berlin automatically handles CET (+01:00) and CEST (+02:00).
+        weather_hour_utc = pd.to_datetime(
             weather["MESS_DATUM"].astype(str).str.strip(),
             format="%Y%m%d%H",
             errors="coerce",
+            utc=True,
+        )
+        weather["weather_hour"] = (
+            weather_hour_utc.dt.tz_convert("Europe/Berlin").dt.tz_localize(None)
         )
         weather[f"{prefix}_weather_record_available"] = True
 
@@ -165,6 +175,13 @@ def read_weather_source(prefix: str, config: dict[str, object]) -> pd.DataFrame:
         invalid_dates = int(weather["weather_hour"].isna().sum())
         if invalid_dates:
             raise ValueError(f"{path.name} contains {invalid_dates} invalid dates.")
+
+        # Keep only the analysis period before validating duplicate local hours.
+        # The raw DWD files include fall-back DST hours outside this dataset.
+        weather = weather.loc[
+            weather["weather_hour"].ge(WEATHER_HOUR_START)
+            & weather["weather_hour"].lt(WEATHER_HOUR_END_EXCLUSIVE)
+        ].copy()
 
         frames.append(
             weather[
