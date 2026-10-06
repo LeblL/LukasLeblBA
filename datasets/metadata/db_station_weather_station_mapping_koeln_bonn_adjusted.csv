@@ -1,0 +1,9 @@
+﻿eva,station_name,latitude,longitude,ff_station_id,ff_station_name,ff_distance_km,tu_station_id,tu_station_name,tu_distance_km,rr_station_id,rr_station_name,rr_distance_km,fx_station_id,fx_station_name,fx_distance_km
+08000207,Köln Hbf,50.94303,6.958729,02667,Köln/Bonn,16.448,02667,Köln/Bonn,16.448,02667,Köln/Bonn,16.448,02667,Köln/Bonn,16.448
+08003368,Köln Messe/Deutz,50.940874,6.975001,02667,Köln/Bonn,15.359,02667,Köln/Bonn,15.359,02667,Köln/Bonn,15.359,02667,Köln/Bonn,15.359
+08003361,Köln Süd,50.9273,6.938059,02667,Köln/Bonn,16.9,02667,Köln/Bonn,16.9,02667,Köln/Bonn,16.9,02667,Köln/Bonn,16.9
+08003330,Köln/Bonn Flughafen,50.878901,7.119302,02667,Köln/Bonn,3.122,02667,Köln/Bonn,3.122,02667,Köln/Bonn,3.122,02667,Köln/Bonn,3.122
+08001215,Brühl,50.8286504,6.91310522,02667,Köln/Bonn,17.616,01327,Weilerswist-Lommersum,15.584,02667,Köln/Bonn,17.616,02667,Köln/Bonn,17.616
+08000044,Bonn Hbf,50.732008,7.097136,00603,Königswinter-Heiderhof,7.527,00603,Königswinter-Heiderhof,7.527,00603,Königswinter-Heiderhof,7.527,00603,Königswinter-Heiderhof,7.527
+08001083,Bonn-Beuel,50.738476,7.127657,00603,Königswinter-Heiderhof,5.469,00603,Königswinter-Heiderhof,5.469,00603,Königswinter-Heiderhof,5.469,00603,Königswinter-Heiderhof,5.469
+08000135,Troisdorf,50.813996,7.15041,02667,Köln/Bonn,5.638,02667,Köln/Bonn,5.638,02667,Köln/Bonn,5.638,02667,Köln/Bonn,5.638
